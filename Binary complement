@@ -1,0 +1,161 @@
+#include<iostream>
+using namespace std;
+
+class node {
+public:
+    int bin;
+    node *next, *prev;
+
+    node(int b = 0) : bin(b), next(NULL), prev(NULL) {} // Initialize pointers to NULL
+};
+
+class list {
+    node *head, *tail;
+public:
+    list() : head(NULL), tail(NULL) {} // Initialize pointers to NULL
+
+    void create(int decimal);
+    void display();
+    void ones();
+    void twos();
+    void add(list& b4, list& b5);
+    void append(int bin);
+};
+
+void list::create(int decimal) {
+    while (decimal != 0) {
+        int remainder = decimal % 2;
+        append(remainder);
+        decimal = decimal / 2;
+    }
+}
+
+void list::append(int bin) {
+    node *nnode = new node(bin);
+    if (head == NULL) {
+        head = tail = nnode;
+    } else {
+        tail->next = nnode;
+        nnode->prev = tail;
+        tail = nnode;
+    }
+}
+
+void list::display() {
+    node *temp = head;
+    while (temp != NULL) {
+        cout << temp->bin;
+        temp = temp->next;
+    }
+}
+
+void list::ones() {
+    node *temp = head;
+    while (temp != NULL) {
+        temp->bin = (temp->bin == 0) ? 1 : 0;
+        temp = temp->next;
+    }
+}
+
+void list::twos() {
+    node *temp = head;
+    bool carry = true; // Start by adding 1 to the one's complement
+
+    while (temp != NULL) {
+        if (carry) {
+            if (temp->bin == 0) {
+                temp->bin = 1;
+                carry = false;
+            } else {
+                temp->bin = 0;
+            }
+        }
+        temp = temp->next;
+    }
+
+    // If carry is still 1, add an extra node
+    if (carry) {
+        append(1);
+    }
+}
+
+void list::add(list& b4, list& b5) {
+    node *temp1 = b4.head, *temp2 = b5.head;
+    bool carry = 0;
+    while (temp1 != NULL || temp2 != NULL) {
+        int sum = carry;
+        if (temp1 != NULL) {
+            sum += temp1->bin;
+            temp1 = temp1->next;
+        }
+        if (temp2 != NULL) {
+            sum += temp2->bin;
+            temp2 = temp2->next;
+        }
+
+        append(sum % 2);
+        carry = sum / 2;
+    }
+
+    // If there's a carry left, append it
+    if (carry) {
+        append(carry);
+    }
+}
+
+int main() {
+    int decimal, ch, choice;
+    list b1, b2, b3, b4, b5, b6;
+    
+    do {
+        cout << "Choose one of the following:\n";
+        cout << "1. Convert into binary\n2. One's complement\n3. Two's complement\n4. Add\n::->";
+        cin >> choice;
+        
+        switch (choice) {
+        case 1:
+            cout << "Enter the decimal number::->";
+            cin >> decimal;
+            b1.create(decimal);
+            cout << "Binary equivalent ::->";
+            b1.display();
+            break;
+        
+        case 2:
+            b2.ones();
+            cout << "\nOne's complement ::->";
+            b2.display();
+            break;
+        
+        case 3:
+            b3.twos();
+            cout << "\nTwo's complement ::->";
+            b3.display();
+            break;
+        
+        case 4:
+            cout << "Enter the first decimal number::->";
+            cin >> decimal;
+            b4.create(decimal);
+            cout << "Enter the second decimal number::->";
+            cin >> decimal;
+            b5.create(decimal);
+            cout << "Binary equivalent of first number::->";
+            b4.display();
+            cout << "\nBinary equivalent of second number ::->";
+            b5.display();
+            b6.add(b4, b5);
+            cout << "\nAddition result ::->";
+            b6.display();
+            break;
+        
+        default:
+            cout << "Incorrect choice";
+        }
+        
+        cout << "\nDo you want to continue (press 1) ::->";
+        cin >> ch;
+    } while (ch == 1);
+
+    return 0;
+}
