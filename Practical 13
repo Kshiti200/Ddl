@@ -1,0 +1,133 @@
+#include<iostream>
+using namespace std;
+
+class stack 
+{
+    char exp[20], s[20];
+    int top, max;
+public:
+    stack() 
+	{
+        top = -1;
+        max = 20;
+    }
+    char getop();
+    bool isfull();
+    void expr();
+    bool isempty();
+    void push(char);
+    char pop();
+    void check(stack&);
+};
+
+bool stack::isempty() 
+{
+    return (top == -1);
+}
+
+bool stack::isfull() 
+{
+    return (top == max - 1);
+}
+
+char stack::getop() 
+{
+    if (!isempty()) 
+	{
+        return s[top];
+    }
+    return '\0';  
+}
+
+void stack::push(char ex) 
+{
+    if (isfull()) 
+	{
+        cout << "Stack overflow!" << endl;
+    } else 
+	{
+        s[++top] = ex;
+    }
+}
+
+char stack::pop() 
+{
+    if (isempty()) 
+	{
+        cout << "Stack underflow!" << endl;
+        return '\0';  
+    } else 
+	{
+        return s[top--];
+    }
+}
+
+void stack::expr() 
+{
+    cout << "Enter the Expression: ";
+    cin >> exp;
+}
+
+void stack::check(stack& s) 
+{
+    char ex, ch;
+    stack e;
+    bool flag = true;
+
+    for (int i = 0; s.exp[i] != '\0'; i++) 
+	{
+        ex = s.exp[i];
+        if (ex == '(' || ex == '{' || ex == '[') 
+		{
+            e.push(ex);
+        } else 
+		{
+            ch = e.getop();
+            switch (ex) 
+			{
+                case ')':
+                    if (ch == '(') 
+					{
+                        e.pop();
+                    } else 
+					{
+                        flag = false;
+                    }
+                    break;
+                case ']':
+                    if (ch == '[') 
+					{
+                        e.pop();
+                    } else 
+					{
+                        flag = false;
+                    }
+                    break;
+                case '}':
+                    if (ch == '{') 
+					{
+                        e.pop();
+                    } else 
+					{
+                        flag = false;
+                    }
+                    break;
+            }
+        }
+    }
+
+    if (e.isempty() && flag) 
+	{
+        cout << "The expression is well balanced." << endl;
+    } else 
+	{
+        cout << "The expression is not well balanced." << endl;
+    }
+}
+
+int main() {
+    stack s;
+    s.expr();
+    s.check(s);  
+    return 0;
+}
