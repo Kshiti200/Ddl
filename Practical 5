@@ -1,0 +1,55 @@
+marks = []
+n = int(input("Enter number of students: "))
+print("Enter marks for", n, "students:")
+for i in range(n):
+    marks.append(float(input()))
+
+def bubble_sort(marks):
+    n = len(marks)
+    for i in range(n - 1):
+        swapped = False
+        for j in range(n - i - 1):
+            if marks[j] > marks[j + 1]:
+                marks[j], marks[j + 1] = marks[j + 1], marks[j]
+                swapped = True
+        print(f"Pass {i + 1}: {marks}")
+        if not swapped:
+            break
+
+def selection_sort(marks):
+    n = len(marks)
+    for i in range(n):
+        min_idx = i
+        for j in range(i + 1, n):
+            if marks[j] < marks[min_idx]:
+                min_idx = j
+        marks[i], marks[min_idx] = marks[min_idx], marks[i]
+        print(f"Pass {i + 1}: {marks}")
+
+def top_five_marks(marks):
+    print("\nTop 5 Marks:")
+    for mark in sorted(marks, reverse=True)[:5]:
+        print(mark)
+
+while True:
+    print("\n1. Selection Sort of the marks")
+    print("2. Bubble Sort of the marks")
+    print("3. Exit")
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        print("\nStarting Selection Sort...")
+        selection_sort(marks)
+        top_five = input("\nDo you want to display top marks (yes/no): ")
+        if top_five.lower() == "yes":
+            top_five_marks(marks)
+    elif choice == 2:
+        print("\nStarting Bubble Sort...")
+        bubble_sort(marks)
+        top_five = input("\nDo you want to display top marks (yes/no): ")
+        if top_five.lower() == "yes":
+            top_five_marks(marks)
+    elif choice == 3:
+        break
+    else:
+        print("Invalid choice. Please try again.")
