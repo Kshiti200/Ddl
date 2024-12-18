@@ -1,0 +1,97 @@
+#include <iostream>
+#include <queue>
+#include <string>
+using namespace std;
+
+class JobQueue 
+{
+private:
+    queue<string> jobQueue;
+
+public:
+    void addJob(const string& job) 
+	{
+        jobQueue.push(job);
+        cout << "Job \"" << job << "\" added to the queue.\n";
+    }
+
+    void deleteJob() 
+	{
+        if (!jobQueue.empty()) 
+		{
+            cout << "Job \"" << jobQueue.front() << "\" deleted from the queue.\n";
+            jobQueue.pop();
+        } else 
+		{
+            cout << "No jobs in the queue to delete.\n";
+        }
+    }
+
+    void displayJobs() 
+	{
+        if (jobQueue.empty()) 
+		{
+            cout << "The job queue is empty.\n";
+            return;
+        }
+        cout << "Jobs currently in the queue: \n";
+        queue<string> tempQueue = jobQueue;
+        while (!tempQueue.empty()) {
+            cout << tempQueue.front() << "\n";
+            tempQueue.pop();
+        }
+    }
+
+    int numberOfJobs() 
+	{
+        return jobQueue.size();
+    }
+};
+
+int main() 
+{
+    JobQueue jq;
+    int choice;
+    string job;
+
+    do {
+        cout << "\nJob Queue Menu:\n";
+        cout << "1. Add Job\n";
+        cout << "2. Delete Job\n";
+        cout << "3. Display Jobs\n";
+        cout << "4. Number of Jobs in Queue\n";
+        cout << "5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter job name to add: ";
+                cin.ignore();  // To clear the input buffer before using getline
+                getline(cin, job);
+                jq.addJob(job);
+                break;
+
+            case 2:
+                jq.deleteJob();
+                break;
+
+            case 3:
+                jq.displayJobs();
+                break;
+
+            case 4:
+                cout << "Number of jobs in queue: " << jq.numberOfJobs() << "\n";
+                break;
+
+            case 5:
+                cout << "Exiting program.\n";
+                break;
+
+            default:
+                cout << "Invalid choice, please try again.\n";  // Fixed the missing semicolon here
+        }
+    } while (choice != 5);
+
+    return 0;
+}
