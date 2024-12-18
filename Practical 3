@@ -1,0 +1,78 @@
+A= []
+m=int(input("enter the rows no of  matrix:"))
+n=int(input("enter the column no of  matrix:"))
+for i in range(m):
+    sublist=[]
+    for j in range(n):
+        sublist.append(int(input(f"enter the element of {i} row and {j} column ")))
+    A.append(sublist)      
+
+print("") 
+
+    
+B= []
+
+for i in range(m):
+    sublist= []
+    for j in range(n):
+        sublist.append(int(input(f"enter the element of {i} row and {j} column ")))
+    B.append(sublist)
+
+print(A)   
+print(B)
+
+add= []
+for i in range(m):
+    sublist= []
+    for j in range(n):
+        sublist.append(A[i][j]+B[i][j])
+    add.append(sublist)
+print("Matrix Addition is:")
+print(add)
+
+print("")
+
+sub= []
+for i in range(m):
+    sublist= []
+    for j in range(n):
+     sublist.append(A[i][j]-B[i][j])
+    sub.append(sublist)
+print("Matrix substraction is:")
+print(sub)    
+
+print("")
+
+mul=[]
+for i in range(m):
+    sublist=[]
+    for j in range(n):
+        z=0
+        for k in range(len(B)):
+            z+=A[i][k]*B[k][j]
+        sublist.append(int(z))
+    mul.append(sublist)    
+print("matrix multiplication is:")
+print(mul) 
+ 
+print("")        
+     
+transpose=[]
+for i in range(m):
+    sublist=[]
+    for j in range(n):
+        e=A[j][i]
+        sublist.append(int(e))
+    transpose.append(sublist)
+print("transepose of matrix A is:")
+print(transpose)
+
+transpose=[]
+for i in range(m):
+    sublist=[]
+    for j in range(n):
+        e=B[j][i]
+        sublist.append(int(e))
+    transpose.append(sublist)
+print("transepose of matrix B is:")
+print(transpose)
