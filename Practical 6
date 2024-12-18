@@ -1,0 +1,30 @@
+A=[]
+n=int(input("Enter Total number of present students:"))
+for i in range(n):
+    p=float(input("Enter percentage of student:"))
+    A.append(p)
+print("input is ",A)
+
+def partition(s,e):
+    
+    piv=A[e]
+    pin=s
+    
+    for i in range (s,e):
+        if A[i]<piv:
+            A[i],A[pin]=A[pin],A[i]
+            pin=pin+1
+            
+        
+    A[pin],A[e]=A[e],A[pin]
+    print("pivot",piv," is placed at ",pin,"position ")
+    return pin
+    
+def qs(s,e):
+    if s<e:
+      pin=partition(s,e)
+      qs(s,pin-1)
+      qs(pin+1,e)
+ 
+qs(0,n-1)
+print("after sorting ",A)
